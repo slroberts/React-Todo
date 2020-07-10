@@ -2,31 +2,24 @@ import React from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
-import {Container, Grid} from "@material-ui/core";
+import {Container, Grid, Box} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
 const todos = [
   {
-    task: "Organize Garage",
+    task: "ex. Organize Garage",
     id: 1528817077286,
-    completed: false,
-  },
-  {
-    task: "Bake Cookies",
-    id: 1528817084358,
     completed: false,
   },
 ];
 
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
-
   constructor() {
     super();
     this.state = {
       todos,
       task: "",
+      open: false,
     };
   }
 
@@ -76,12 +69,42 @@ class App extends React.Component {
     });
   };
 
+  // handleOpen = () => {
+  //   this.setState({
+  //     open: true,
+  //   });
+  // };
+
+  // handleClose = () => {
+  //   this.setState({
+  //     open: false,
+  //   });
+  // };
+
+  todoData;
+
+  componentDidMount() {
+    localStorage.getItem("todos") &&
+      this.setState({
+        todos: JSON.parse(localStorage.getItem("todos")),
+      });
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem("todos", JSON.stringify(nextState.todos));
+  }
+
   render() {
     return (
       <Container maxWidth="sm">
         <Grid container spacing={4}>
+          <button>
+            <SearchIcon onClick={this.handleOpen} />
+          </button>
           <Grid item xs={12}>
-            <h2>Todo List: MVP</h2>
+            <Box fontFamily="fontFamily" textAlign="center">
+              <h2>Todo List: MVP</h2>
+            </Box>
             <TodoForm
               task={this.state.task}
               handleChange={this.handleChange}

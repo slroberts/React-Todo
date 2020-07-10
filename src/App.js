@@ -81,8 +81,6 @@ class App extends React.Component {
   //   });
   // };
 
-  todoData;
-
   componentDidMount() {
     localStorage.getItem("todos") &&
       this.setState({
@@ -90,8 +88,8 @@ class App extends React.Component {
       });
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem("todos", JSON.stringify(nextState.todos));
+  componentDidUpdate(prevProps, prevStates) {
+    localStorage.setItem("todos", JSON.stringify(this.state.todos));
   }
 
   render() {

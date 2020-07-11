@@ -10,6 +10,7 @@ const TodoList = (props) => {
           key={todo.id}
           todo={todo}
           toggleCompleted={props.toggleCompleted}
+          handleDelete={props.handleDelete}
         />
       ))}
     </Box>

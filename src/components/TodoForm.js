@@ -20,6 +20,7 @@ const useStyles = makeStyles(() => ({
       backgroundColor: "#121212",
       color: "white",
       fontSize: ".9rem",
+      transition: ".3s",
 
       "&:hover": {
         backgroundColor: "rgb(76, 175, 80) !important",
@@ -56,7 +57,9 @@ const TodoForm = (props) => {
       </Box>
       <Grid container justify="space-between">
         <Grid item xs={12}>
-          <button className={classes.addBtn}>Add Task</button>
+          <button className={classes.addBtn} disabled={props.buttonDisabled}>
+            Add Task
+          </button>
         </Grid>
         <Grid item xs={12}>
           <button onClick={props.clearCompleted} className={classes.clearBtn}>

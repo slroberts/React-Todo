@@ -19,8 +19,18 @@ class App extends React.Component {
     this.state = {
       todos,
       task: "",
-      open: false,
     };
+  }
+
+  componentDidMount() {
+    localStorage.getItem("todos") &&
+      this.setState({
+        todos: JSON.parse(localStorage.getItem("todos")),
+      });
+  }
+
+  componentDidUpdate(prevProps, prevStates) {
+    localStorage.setItem("todos", JSON.stringify(this.state.todos));
   }
 
   handleChange = (e) => {
@@ -69,30 +79,15 @@ class App extends React.Component {
     });
   };
 
-  // handleOpen = () => {
-  //   this.setState({
-  //     open: true,
-  //   });
-  // };
-
-  // handleClose = () => {
-  //   this.setState({
-  //     open: false,
-  //   });
-  // };
-
-  componentDidMount() {
-    localStorage.getItem("todos") &&
-      this.setState({
-        todos: JSON.parse(localStorage.getItem("todos")),
-      });
-  }
-
-  componentDidUpdate(prevProps, prevStates) {
-    localStorage.setItem("todos", JSON.stringify(this.state.todos));
-  }
+  handleDelete = (todoId) => {
+    const newTodoList = this.state.todos.filter((todo) => todo.id !== todoId);
+    this.setState({
+      todos: newTodoList,
+    });
+  };
 
   render() {
+    const enabled = this.state.task.length > 0;
     return (
       <Container maxWidth="sm">
         <Grid container spacing={4}>
@@ -101,7 +96,7 @@ class App extends React.Component {
           </button>
           <Grid item xs={12}>
             <Box fontFamily="fontFamily" textAlign="center">
-              <h2>Todo List: MVP</h2>
+              <h2>Todo List</h2>
             </Box>
             <TodoForm
               task={this.state.task}
@@ -109,12 +104,14 @@ class App extends React.Component {
               handleSubmit={this.handleSubmit}
               addTask={this.addTask}
               clearCompleted={this.clearCompleted}
+              buttonDisabled={!enabled}
             />
           </Grid>
           <Grid item xs={12}>
             <TodoList
               todos={this.state.todos}
               toggleCompleted={this.toggleCompleted}
+              handleDelete={this.handleDelete}
             />
           </Grid>
         </Grid>

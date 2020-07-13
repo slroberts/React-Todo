@@ -1,2 +1,20 @@
-// your components will all go in this `component` directory.
-// feel free to change this component.js into TodoList.js
+import React from "react";
+import Todo from "./Todo";
+import {Box} from "@material-ui/core";
+
+const TodoList = (props) => {
+  return (
+    <Box>
+      {props.todos.map((todo) => (
+        <Todo
+          key={todo.id}
+          todo={todo}
+          toggleCompleted={props.toggleCompleted}
+          handleDelete={props.handleDelete}
+        />
+      ))}
+    </Box>
+  );
+};
+
+export default TodoList;
